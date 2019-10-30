@@ -7,18 +7,13 @@ import kim.jaehoon.hangman.domain.UserRepository;
 import kim.jaehoon.hangman.exception.InvalidUserCredentialException;
 import kim.jaehoon.hangman.exception.UserAlreadyExistsException;
 import kim.jaehoon.hangman.exception.UserNotFoundException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
 public class UserService {
-
-    private static final Logger logger = LogManager.getLogger(UserService.class);
 
     private TokenService tokenService;
     private UserRepository userRepository;
@@ -31,7 +26,7 @@ public class UserService {
 
     public Mono createUser(SignUp signUp) {
         User user = signUp.toUser(passwordEncoder);
-        return userRepository.findByEmail(user.getEmail())
+        return userRepository.findById(user.getId())
                 .handle((dbUser, sink) -> {
                     sink.error(new UserAlreadyExistsException());
                 }).switchIfEmpty(Mono.fromRunnable(() -> {
@@ -39,15 +34,20 @@ public class UserService {
                 }));
     }
 
-    public Mono login(String email, String password) {
-        return userRepository.findByEmail(email)
+    public Mono login(String id, String password) {
+        return userRepository.findById(id)
                 .flatMap(user -> {
                     if (passwordEncoder.matches(password, user.getPassword())) {
-                        return Mono.just(new TokenResponse(tokenService.createAccessToken(email), tokenService.createRefreshToken(email)));
+                        return Mono.just(new TokenResponse(tokenService.createAccessToken(id)));
                     } else {
                         return Mono.error(new InvalidUserCredentialException());
                     }
                 })
+                .switchIfEmpty(Mono.error(new UserNotFoundException()));
+    }
+
+    public Mono findById(String id) {
+        return userRepository.findById(id)
                 .switchIfEmpty(Mono.error(new UserNotFoundException()));
     }
 }
