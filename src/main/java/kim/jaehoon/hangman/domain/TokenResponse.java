@@ -8,5 +8,4 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TokenResponse {
     private String access;
-    private String refresh;
 }
