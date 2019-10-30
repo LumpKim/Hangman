@@ -1,8 +1,8 @@
 package kim.jaehoon.hangman.controller;
 
-import kim.jaehoon.hangman.domain.Login;
-import kim.jaehoon.hangman.domain.SignUp;
-import kim.jaehoon.hangman.service.UserService;
+import kim.jaehoon.hangman.domain.payload.Login;
+import kim.jaehoon.hangman.domain.payload.SignUp;
+import kim.jaehoon.hangman.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 public class UserController {
 
     @Autowired
-    UserService userService;
+    UserServiceImpl userService;
 
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.NO_CONTENT)
