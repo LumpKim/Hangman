@@ -1,4 +1,4 @@
-package kim.jaehoon.hangman.domain;
+package kim.jaehoon.hangman.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

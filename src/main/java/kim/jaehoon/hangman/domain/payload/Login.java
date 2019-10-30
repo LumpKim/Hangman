@@ -1,4 +1,4 @@
-package kim.jaehoon.hangman.domain;
+package kim.jaehoon.hangman.domain.payload;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,5 +1,6 @@
-package kim.jaehoon.hangman.domain;
+package kim.jaehoon.hangman.domain.repository;
 
+import kim.jaehoon.hangman.domain.entity.User;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;

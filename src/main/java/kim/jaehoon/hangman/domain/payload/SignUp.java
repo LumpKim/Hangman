@@ -1,5 +1,7 @@
-package kim.jaehoon.hangman.domain;
+package kim.jaehoon.hangman.domain.payload;
 
+import kim.jaehoon.hangman.domain.entity.User;
+import kim.jaehoon.hangman.domain.entity.WinningRate;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +20,7 @@ public class SignUp {
     private String password;
 
     public User toUser(PasswordEncoder passwordEncoder) {
-        return new User(id, passwordEncoder.encode(password), 0, new WinningRate(0, 0, (float) 0));
+        return new User(id, passwordEncoder.encode(password), 0, false,  new WinningRate(0, 0, (float) 0));
     }
 
 }

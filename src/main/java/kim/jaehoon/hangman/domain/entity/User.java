@@ -1,4 +1,4 @@
-package kim.jaehoon.hangman.domain;
+package kim.jaehoon.hangman.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -18,6 +18,8 @@ public class User {
     private String password;
 
     private int level;
+
+    private boolean ready;
 
     @Field("winning_rate")
     private WinningRate winningRate;
