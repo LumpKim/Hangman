@@ -1,25 +1,26 @@
-package kim.jaehoon.hangman.service;
+package kim.jaehoon.hangman.service.user;
 
-import kim.jaehoon.hangman.domain.SignUp;
-import kim.jaehoon.hangman.domain.TokenResponse;
-import kim.jaehoon.hangman.domain.User;
-import kim.jaehoon.hangman.domain.UserRepository;
+import kim.jaehoon.hangman.domain.payload.SignUp;
+import kim.jaehoon.hangman.domain.payload.TokenResponse;
+import kim.jaehoon.hangman.domain.entity.User;
+import kim.jaehoon.hangman.domain.repository.UserRepository;
 import kim.jaehoon.hangman.exception.InvalidUserCredentialException;
 import kim.jaehoon.hangman.exception.UserAlreadyExistsException;
 import kim.jaehoon.hangman.exception.UserNotFoundException;
+import kim.jaehoon.hangman.service.token.TokenServiceImpl;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
-public class UserService {
+public class UserServiceImpl implements UserService {
 
-    private TokenService tokenService;
+    private TokenServiceImpl tokenService;
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
-    public UserService(UserRepository userRepository, TokenService tokenService) {
+    public UserServiceImpl(UserRepository userRepository, TokenServiceImpl tokenService) {
         this.tokenService = tokenService;
         this.userRepository = userRepository;
     }

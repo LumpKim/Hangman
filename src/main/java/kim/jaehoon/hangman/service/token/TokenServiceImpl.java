@@ -1,4 +1,4 @@
-package kim.jaehoon.hangman.service;
+package kim.jaehoon.hangman.service.token;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -10,14 +10,12 @@ import kim.jaehoon.hangman.exception.TokenExpiredException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.sql.Date;
 import java.time.Instant;
 
 @Service
-public class TokenService {
+public class TokenServiceImpl implements TokenService {
 
     @Value("${JWT_ACCESS_EXP}")
     private Long accessExp;
@@ -50,7 +48,7 @@ public class TokenService {
         return _generateToken(identity, refreshExp);
     }
 
-    private String _generateToken(String identity, Long expSeconds) {
+    public String _generateToken(String identity, Long expSeconds) {
         return Jwts.builder()
                 .setSubject(identity)
                 .setIssuedAt(Date.from(Instant.now()))
