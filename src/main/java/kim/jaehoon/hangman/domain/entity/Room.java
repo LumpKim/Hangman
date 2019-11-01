@@ -1,25 +1,30 @@
 package kim.jaehoon.hangman.domain.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-import reactor.core.publisher.Flux;
 
-@Data
-@Document
+import java.util.List;
+
+@Data @Document
+@AllArgsConstructor
 public class Room {
     @Id
-    private ObjectId id;
+    private String id;
 
     private String name;
 
     @Field("max_player")
     private int maxPlayer;
 
-    private Flux<User> participants;
+    private List<String> participants;
 
-    private String answer;
+    private String status;
+
+    private String admin;
+
+    private String word;
 
 }
