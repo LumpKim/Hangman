@@ -12,4 +12,11 @@ public interface RoomService {
 
     Flux findAll();
 
+    Mono save(String adminId, String name, int maxPlayer);
+
+    Mono setParticipant(ObjectId roomId, String adminId);
+
+    Mono removeParticipant(ObjectId roomId, String userId);
+
+    Mono setReady(ObjectId roomId, String userId);
 }

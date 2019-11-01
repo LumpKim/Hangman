@@ -1,8 +1,8 @@
 package kim.jaehoon.hangman.service.user;
 
+import kim.jaehoon.hangman.domain.entity.User;
 import kim.jaehoon.hangman.domain.payload.SignUp;
 import kim.jaehoon.hangman.domain.payload.TokenResponse;
-import kim.jaehoon.hangman.domain.entity.User;
 import kim.jaehoon.hangman.domain.repository.UserRepository;
 import kim.jaehoon.hangman.exception.InvalidUserCredentialException;
 import kim.jaehoon.hangman.exception.UserAlreadyExistsException;
@@ -11,6 +11,7 @@ import kim.jaehoon.hangman.service.token.TokenServiceImpl;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -50,5 +51,10 @@ public class UserServiceImpl implements UserService {
     public Mono findById(String id) {
         return userRepository.findById(id)
                 .switchIfEmpty(Mono.error(new UserNotFoundException()));
+    }
+
+    @Override
+    public Flux findAll() {
+        return userRepository.findAll();
     }
 }
