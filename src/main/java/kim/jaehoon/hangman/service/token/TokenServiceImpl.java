@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.sql.Date;
 import java.time.Instant;
+import java.util.Date;
 
 @Service
 public class TokenServiceImpl implements TokenService {
@@ -23,7 +23,7 @@ public class TokenServiceImpl implements TokenService {
     @Value("${JWT_REFRESH_EXP}")
     private Long refreshExp;
 
-    private SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     public String getIdentity(String jwt) {
         try {
@@ -31,7 +31,7 @@ public class TokenServiceImpl implements TokenService {
                     .setSigningKey(secretKey)
                     .parseClaimsJws(jwt)
                     .getBody();
-            if (Date.from(Instant.now()).before(parsed.getExpiration())) {
+            if (parsed.getExpiration().before(Date.from(Instant.now()))) {
                 throw new TokenExpiredException();
             }
             return parsed.getSubject();
