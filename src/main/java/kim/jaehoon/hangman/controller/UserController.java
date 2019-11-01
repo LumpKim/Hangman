@@ -6,6 +6,7 @@ import kim.jaehoon.hangman.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.constraints.NotNull;
@@ -33,4 +34,10 @@ public class UserController {
     public Mono findUserInfo(@PathVariable String id) {
         return userService.findById(id);
     }
+
+    @GetMapping
+    public Flux findAll() {
+        return userService.findAll();
+    }
+
 }
