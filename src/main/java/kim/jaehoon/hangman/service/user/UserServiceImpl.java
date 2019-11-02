@@ -55,6 +55,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Flux findAll() {
-        return userRepository.findAll();
+        return userRepository.findTop5ByOrderByLevelDesc();
     }
 }
