@@ -9,6 +9,8 @@ public interface RoomRepository extends ReactiveMongoRepository<Room, ObjectId> 
 
     Mono<Room> findById(ObjectId id);
 
-    Mono<Room> findByAdmin(String admin);
+    Mono<Room> findByAdmin(String adminId);
+
+    Mono<Room> findByIdAndAdmin(String roomId, String adminId);
 
 }

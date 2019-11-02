@@ -10,8 +10,20 @@ public class WinningRate {
     public int defeat;
     public float percent;
 
+    public void incrementWinCount() {
+        this.win += 1;
+    }
+
+    public void incrementDefeatCount() {
+        this.defeat += 1;
+    }
+
     public float getPercent() {
-        this.percent = (float) win / (win + defeat);
+        if (win == 0 && defeat == 0) {
+            this.percent = 0;
+        } else {
+            this.percent = (float) win / (win + defeat);
+        }
         return this.percent;
     }
 

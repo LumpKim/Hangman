@@ -24,4 +24,6 @@ public class User {
     @Field("winning_rate")
     private WinningRate winningRate;
 
+    private String roomId;
+
 }

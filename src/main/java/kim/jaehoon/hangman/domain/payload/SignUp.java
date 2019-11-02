@@ -20,7 +20,7 @@ public class SignUp {
     private String password;
 
     public User toUser(PasswordEncoder passwordEncoder) {
-        return new User(id, passwordEncoder.encode(password), 0, false,  new WinningRate(0, 0, (float) 0));
+        return new User(id, passwordEncoder.encode(password), 0, false,  new WinningRate(0, 0, (float) 0.0), null);
     }
 
 }
