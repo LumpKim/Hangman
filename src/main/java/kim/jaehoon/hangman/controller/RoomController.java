@@ -1,5 +1,7 @@
 package kim.jaehoon.hangman.controller;
 
+import kim.jaehoon.hangman.domain.entity.User;
+import kim.jaehoon.hangman.domain.payload.Answer;
 import kim.jaehoon.hangman.domain.payload.CreateRoomInfo;
 import kim.jaehoon.hangman.service.room.RoomService;
 import kim.jaehoon.hangman.service.token.TokenService;
@@ -26,11 +28,6 @@ public class RoomController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/room/{id}")
-    public Mono findById(@NotNull @PathVariable ObjectId id) {
-        return roomService.findById(id);
-    }
-
     @GetMapping("/rooms")
     public Flux findAll() {
         return roomService.findAll();
@@ -41,6 +38,17 @@ public class RoomController {
     public Mono createRoom(@NotNull @RequestHeader("Authorization") String auth, @RequestBody CreateRoomInfo roomInfo) {
         String adminId = tokenService.getIdentity(auth.replace("Bearer ", ""));
         return roomService.save(adminId, roomInfo.getName(), roomInfo.getMaxPlayer());
+    }
+
+    @GetMapping("/room/{roomId}")
+    public Mono findById(@NotNull @PathVariable ObjectId roomId) {
+        return roomService.findById(roomId);
+    }
+
+    @PutMapping("/room/{roomId}")
+    public Flux<User> setAnswer(@NotNull @RequestHeader("Authorization") String auth, @PathVariable ObjectId roomId, @RequestBody Answer answer) {
+        String adminId = tokenService.getIdentity(auth.replace("Bearer ", ""));
+        return roomService.setAnswer(roomId, adminId, answer.getAnswer());
     }
 
     @PostMapping("/room/{roomId}/participant")
@@ -62,5 +70,12 @@ public class RoomController {
     public Mono removeParticipant(@NotNull @RequestHeader("Authorization") String auth, @PathVariable ObjectId roomId) {
         String userId = tokenService.getIdentity(auth.replace("Bearer ", ""));
         return roomService.removeParticipant(roomId, userId);
+    }
+
+    @PatchMapping("/room/{roomId}/answer")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Mono submitAnswer(@RequestHeader("Authorization") String auth, @PathVariable ObjectId roomId, @RequestBody Answer answer) {
+        String userId = tokenService.getIdentity(auth.replace("Bearer ", ""));
+        return roomService.submitAnswer(roomId, userId, answer.getAnswer());
     }
 }
